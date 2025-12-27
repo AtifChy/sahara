@@ -85,7 +85,7 @@
 
 body {
   margin: 0;
-  background-color: var(--base);
+  background-color: var(--crust);
   color: var(--text);
 }
 
@@ -193,4 +193,82 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .search-form input::placeholder {
   color: var(--surface2);
+}
+
+.hero {
+  margin: 30px;
+  padding: 32px;
+  background-color: var(--base);
+  border-radius: 20px;
+  border: 1px solid var(--subface1);
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: space-between;
+}
+
+.hero-text {
+  max-width: 50%;
+}
+
+.offer {
+  color: var(--flamingo);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.hero-text h1 {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 30px;
+}
+
+.hero-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.buy-btn {
+  background-color: var(--green);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 28px;
+  border: none;
+  margin-right: 15px;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--subtext0);
+  font-weight: 500;
+}
+
+.more:hover,
+.more:hover .material-icons-outlined {
+  color: var(--yellow);
+}
+
+/* slider dots */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: var(--surface2);
+  border-radius: 50%;
+}
+
+.dot.active {
+  background: var(--yellow);
 }
