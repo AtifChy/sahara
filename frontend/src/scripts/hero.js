@@ -20,35 +20,50 @@
     },
   ];
 
-  const hero = document.querySelector(".hero");
-  const offerElement = document.getElementById("hero-offer");
-  const titleElement = document.getElementById("hero-title");
-  const buyButton = document.querySelector(".buy-btn");
+  const slider = document.querySelector(".hero-slider");
   const dots = Array.from(document.querySelectorAll(".dots .dot"));
 
-  if (
-    !hero ||
-    !offerElement ||
-    !titleElement ||
-    !buyButton ||
-    dots.length === 0
-  )
-    return;
+  if (!slider || dots.length === 0) return;
+
+  slides.forEach((slide) => {
+    const content = document.createElement("div");
+    content.className = "hero-content";
+
+    content.innerHTML = `
+      <div class="hero-text">
+        <div class="offer">${slide.offer}</div>
+        <h1 id="hero-title">${slide.title}</h1>
+      </div>
+      <div class="hero-buttons">
+        <button class="buy-btn">${slide.button}</button>
+        <a href="#" class="more">
+          Find more
+          <span class="material-icons-outlined">arrow_forward</span>
+        </a>
+      </div>
+    `;
+
+    slider.appendChild(content);
+  });
 
   let current = 0;
 
   const setSlider = (index) => {
     current = (index + slides.length) % slides.length;
-    const slide = slides[current];
-
-    offerElement.textContent = slide.offer;
-    titleElement.textContent = slide.title;
-    buyButton.textContent = slide.button;
+    slider.style.transform = `translateX(-${current * 100}%)`;
 
     dots.forEach((dot, i) => {
       dot.classList.toggle("active", i === current);
     });
   };
+
+  slider.addEventListener("wheel", (e) => {
+    if (e.deltaY > 0) {
+      setSlider(current + 1);
+    } else {
+      setSlider(current - 1);
+    }
+  });
 
   dots.forEach((dot, i) => {
     dot.addEventListener("click", () => setSlider(i));
