@@ -58,6 +58,7 @@
   };
 
   slider.addEventListener("wheel", (e) => {
+    e.preventDefault();
     if (e.deltaY > 0) {
       setSlider(current + 1);
     } else {
