@@ -1,4 +1,4 @@
-function initSearch() {
+export function initSearch() {
   const toggleBtn = document.getElementById("search-toggle");
   const searchForm = document.getElementById("search-form");
   const searchInput = document.getElementById("search-input");

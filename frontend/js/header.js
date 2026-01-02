@@ -1,3 +1,5 @@
+import { initSearch } from "/js/search.js";
+
 function getHeaderUrl() {
   return "/partials/header.html";
 }
@@ -15,7 +17,7 @@ async function injectHeader() {
 
     highlightActiveLink(mount);
 
-    window.initSearch?.();
+    initSearch();
   } catch (err) {
     console.error(err);
   }
