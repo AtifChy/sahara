@@ -1,71 +1,35 @@
-const scriptElement = document.currentScript;
-const rootUrl = new URL("..", scriptElement.src);
+function getHeaderUrl() {
+  return "/partials/header.html";
+}
 
-const navLinks = [
-  { href: "index.html", label: "Home" },
-  { href: "pages/shop.html", label: "Shop" },
-  { href: "pages/about.html", label: "About" },
-  { href: "pages/contact.html", label: "Contact" },
-];
+async function injectHeader() {
+  const mount = document.getElementById("header");
+  if (!mount) return;
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const container = document.getElementById("header");
+  try {
+    const res = await fetch(getHeaderUrl());
+    if (!res.ok) throw new Error("Failed to fetch header: " + res.statusText);
 
-  if (!container) return;
+    const html = await res.text();
+    mount.innerHTML = html;
 
-  const navMarkup = navLinks
-    .map((item) => {
-      const fullUrl = new URL(item.href, rootUrl);
-      return `<a href="${fullUrl}">${item.label}</a>`;
-    })
-    .join("");
+    highlightActiveLink(mount);
 
-  container.innerHTML = `
-      <header>
-        <h1 class="logo">
-          <a href="${new URL("index.html", rootUrl)}">Sahara</a>
-        </h1>
+    window.initSearch?.();
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-        <nav>
-          ${navMarkup}
-          <button class="seller-btn">Seller</button>
-        </nav>
-
-        <div class="header-right">
-          <button
-            class="icon-btn"
-            type="button"
-            id="search-toggle"
-            aria-hidden="false"
-            aria-controls="search-form"
-          >
-            <span class="material-icons-outlined">search</span>
-          </button>
-
-          <form class="search-form" id="search-form" aria-hidden="true">
-            <input
-              id="search-input"
-              type="search"
-              placeholder="Search products..."
-            />
-          </form>
-
-          <button class="icon-btn" type="button" id="shopping-cart">
-            <span class="material-icons-outlined">shopping_cart</span>
-          </button>
-        </div>
-      </header>
-    `;
-
-  const currrentPage = window.location.pathname.split("/").pop() ?? "";
-  container.querySelectorAll("nav a[href]").forEach((link) => {
-    const linkPage = link.getAttribute("href")?.split("/").pop() ?? "";
-    if (linkPage === currrentPage) {
+function highlightActiveLink(scope) {
+  const path = window.location.pathname.split("/").pop() ?? "";
+  const links = scope.querySelectorAll("nav a[href]");
+  links.forEach((link) => {
+    const herf = link.getAttribute("href")?.split("/").pop();
+    if (herf === path) {
       link.setAttribute("aria-current", "page");
-    } else {
-      link.removeAttribute("aria-current");
     }
   });
+}
 
-  initSearch();
-});
+document.addEventListener("DOMContentLoaded", injectHeader);
